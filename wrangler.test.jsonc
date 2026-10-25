@@ -1,0 +1,31 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "links-test",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-10-18",
+  "vars": {
+    "PUBLIC_SCHEME": "http",
+    "ANALYTICS_ACCOUNT_ID": "",
+    "ANALYTICS_DATASET": "links_clicks",
+    "AI_MODEL": "@cf/meta/llama-3.1-8b-instruct-fp8"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "links-db-test",
+      "database_id": "00000000-0000-0000-0000-000000000001"
+    }
+  ],
+  "kv_namespaces": [
+    {
+      "binding": "CACHE",
+      "id": "00000000000000000000000000000001"
+    }
+  ],
+  "analytics_engine_datasets": [
+    {
+      "binding": "CLICK_ANALYTICS",
+      "dataset": "links_clicks"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+node_modules/
+.wrangler/
+.dev.vars
+dist/
+coverage/
+.playwright-cli/
+output/
+.DS_Store
+*.log
+*.cpuprofile
+.pnpm-store/

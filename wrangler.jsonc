@@ -1,0 +1,49 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "links",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-10-18",
+  "upload_source_maps": true,
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1
+  },
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": true
+  },
+  "vars": {
+    "PUBLIC_SCHEME": "https",
+    "ANALYTICS_ACCOUNT_ID": "",
+    "ANALYTICS_DATASET": "links_clicks",
+    "AI_MODEL": "@cf/meta/llama-3.1-8b-instruct-fp8"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "links-db",
+      "database_id": "0d0b41a6-0837-47da-9ca7-cc0f8b371f25",
+      "migrations_dir": "./migrations"
+    }
+  ],
+  "kv_namespaces": [
+    {
+      "binding": "CACHE",
+      "id": "34136f8b873448ff8e486f72a5e57122"
+    }
+  ],
+  "analytics_engine_datasets": [
+    {
+      "binding": "CLICK_ANALYTICS",
+      "dataset": "links_clicks"
+    }
+  ],
+  "ai": {
+    "binding": "AI"
+  },
+  "triggers": {
+    "crons": ["0 3 * * *"]
+  }
+}

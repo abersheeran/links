@@ -1,0 +1,39 @@
+{
+  "name": "links",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.15.0",
+  "scripts": {
+    "dev": "pnpm build:web && wrangler dev",
+    "dev:worker": "wrangler dev",
+    "build:web": "vite build --config vite.config.ts",
+    "deploy": "pnpm build:web && wrangler deploy",
+    "types": "wrangler types",
+    "typecheck": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p test/tsconfig.json && tsc --noEmit -p tsconfig.web.json",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "db:migrate:local": "wrangler d1 migrations apply links-db --local",
+    "db:migrate:remote": "wrangler d1 migrations apply links-db --remote",
+    "check": "pnpm types && pnpm typecheck && pnpm test && pnpm build:web && wrangler deploy --dry-run"
+  },
+  "dependencies": {
+    "hono": "^4.13.13",
+    "lucide-react": "^1.59.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "react-router-dom": "^7.18.4",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@cloudflare/vitest-plugin": "^1.4.4",
+    "@types/node": "^26.6.5",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.2",
+    "typescript": "^5.9.3",
+    "vite": "^8.3.4",
+    "vitest": "^4.1.12",
+    "wrangler": "^4.151.1"
+  }
+}
