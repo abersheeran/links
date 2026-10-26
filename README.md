@@ -97,27 +97,30 @@ pnpm wrangler d1 create links-db
 pnpm wrangler kv namespace create LINKS_CACHE
 ```
 
-替换 [wrangler.jsonc](wrangler.jsonc) 中的 D1 `database_id` 和 KV `id`，并填写 32 位账号 ID：
+替换 [wrangler.jsonc](wrangler.jsonc) 中的 D1 `database_id` 和 KV `id`，然后设置 Secret：
 
 ```bash
 pnpm wrangler secret put BOOTSTRAP_TOKEN
+pnpm wrangler secret put ANALYTICS_ACCOUNT_ID
 pnpm wrangler secret put ANALYTICS_API_TOKEN
 ```
 
-`ANALYTICS_API_TOKEN` 需要 _Account Analytics Read_ 权限。然后应用 migration 并部署：
+`ANALYTICS_ACCOUNT_ID` 是 32 位 Cloudflare 账号 ID，用 Secret 保存，这样不会出现在仓库里。`ANALYTICS_API_TOKEN` 需要 _Account Analytics Read_ 权限。每次部署都会用 `wrangler.jsonc` 里的 `vars` 覆盖控制台上设置的同名普通变量，Secret 则不受影响。然后应用 migration 并部署：
 
 ```bash
 pnpm db:migrate:remote
-pnpm deploy
+pnpm run deploy
 ```
 
-`pnpm deploy` 会先执行前端构建。静态资源目录为 `dist/`，Worker 通过 `ASSETS` binding 提供 SPA。
+`pnpm run deploy` 会先执行前端构建。不要写成 `pnpm deploy`，那是 pnpm 的内置命令，不会执行这里的脚本。静态资源目录为 `dist/`，Worker 通过 `ASSETS` binding 提供 SPA。
+
+推送到 `main` 会触发 Cloudflare Workers Builds 自动部署。`dist/` 不入库，所以构建命令必须先执行 `pnpm build:web`，或者把部署命令设为 `pnpm run deploy`。自动部署不会执行 D1 migration，新增 migration 时需要先手动执行 `pnpm db:migrate:remote`。
 
 | 名称                   | 类型   | 用途                                   |
 | ---------------------- | ------ | -------------------------------------- |
 | `BOOTSTRAP_TOKEN`      | Secret | 平台开通、用户恢复和 Key 恢复          |
+| `ANALYTICS_ACCOUNT_ID` | Secret | Cloudflare 账号 ID                     |
 | `ANALYTICS_API_TOKEN`  | Secret | Analytics Engine SQL 只读查询          |
-| `ANALYTICS_ACCOUNT_ID` | Var    | Cloudflare 账号 ID                     |
 | `ANALYTICS_DATASET`    | Var    | 数据集名称，需与 `wrangler.jsonc` 一致 |
 | `AI_MODEL`             | Var    | Workers AI 文本模型                    |
 | `PUBLIC_SCHEME`        | Var    | 短链默认协议，localhost 自动使用 HTTP  |

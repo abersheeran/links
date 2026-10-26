@@ -16,7 +16,6 @@
   },
   "vars": {
     "PUBLIC_SCHEME": "https",
-    "ANALYTICS_ACCOUNT_ID": "",
     "ANALYTICS_DATASET": "links_clicks",
     "AI_MODEL": "@cf/meta/llama-3.1-8b-instruct-fp8"
   },

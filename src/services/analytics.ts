@@ -7,7 +7,7 @@ interface AnalyticsQuery {
 }
 
 interface AnalyticsConfig {
-  ANALYTICS_ACCOUNT_ID: string;
+  ANALYTICS_ACCOUNT_ID?: string;
   ANALYTICS_API_TOKEN?: string;
   ANALYTICS_DATASET: string;
 }
@@ -97,7 +97,12 @@ async function runQuery(
 ): Promise<AnalyticsEngineRow[]> {
   const accountId = env.ANALYTICS_ACCOUNT_ID;
   const token = env.ANALYTICS_API_TOKEN;
-  if (accountId.length === 0 || token === undefined || token.length === 0) {
+  if (
+    accountId === undefined ||
+    accountId.length === 0 ||
+    token === undefined ||
+    token.length === 0
+  ) {
     throw new ApiError(
       503,
       'analytics_not_configured',

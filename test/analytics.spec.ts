@@ -21,7 +21,6 @@ describe('Analytics Engine queries', () => {
     await expect(
       queryAnalytics(
         {
-          ANALYTICS_ACCOUNT_ID: '',
           ANALYTICS_DATASET: 'links_clicks',
         },
         '00000000-0000-4000-8000-000000000000',
